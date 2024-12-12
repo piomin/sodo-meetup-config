@@ -1,0 +1,28 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: sodo-meetup-init
+  labels:
+    backstage.io/kubernetes-id: sodo-meetup
+spec:
+  params:
+    - name: git-revision
+      value: master
+  pipelineRef:
+    name: sodo-meetup
+  serviceAccountName: pipeline
+  workspaces:
+    - name: source-dir
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: sonar-settings
+      secret:
+        secretName: sonarqube-secret-token
+    - configMap:
+        name: maven-settings
+      name: maven-settings

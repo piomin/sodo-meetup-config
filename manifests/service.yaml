@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sodo-meetup
+  labels:
+    app: sodo-meetup
+    backstage.io/kubernetes-id: sodo-meetup
+spec:
+  type: ClusterIP
+  selector:
+    app: sodo-meetup
+  ports:
+    - port: 8080
+      protocol: TCP
+      name: http
